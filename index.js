@@ -59,7 +59,8 @@ function rollbar(options) {
         }
       }
     };
-    request.post({url: API_URL, formData: formData}, function (err, httpResponse, body) {
+    
+    var r = request.post({url: API_URL, formData: formData}, function (err, httpResponse, body) {
       if (err) {
         throw new PluginError(PLUGIN_NAME, err, {showStack: true});
       }
@@ -72,6 +73,10 @@ function rollbar(options) {
       }
 
       callback(null, file);
+    });
+    
+    r.on('error', function(err) {
+      console.log('Rollbar error: %s', err);
     });
   }
 
